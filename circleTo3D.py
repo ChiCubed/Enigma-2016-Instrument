@@ -24,6 +24,6 @@ def circleTo3DSpace(x, y, r):
 
     CENTER = (IMG_WIDTH/2,IMG_HEIGHT/2)
 
-    return z*math.tan((x-CENTER[0])/IMG_WIDTH*FOV_HORIZONTAL),
-           z*math.tan((y-CENTER[1])/IMG_HEIGHT*FOV_VERTICAL),
+    return z*math.tan((x-CENTER[0])/IMG_WIDTH*FOV_HORIZONTAL), \
+           z*math.tan((y-CENTER[1])/IMG_HEIGHT*FOV_VERTICAL), \
            z
