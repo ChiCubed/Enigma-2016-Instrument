@@ -7,7 +7,7 @@ IMG_HEIGHT = 1080.0
 
 MALLET_WIDTH = 2.3 # cm
 
-def circleTo3DSpace(x, y, r):
+def circle_to_3D(x, y, r):
     # Given the x and y position of a circle
     # from the edge of an image
     # and the radius of the circle in pixels,
