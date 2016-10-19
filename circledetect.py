@@ -2,12 +2,17 @@ import numpy as np
 import cv2
 import circleTo3D
 
-def circle_detect(img):    
-    cimg = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+def circle_detect(img):
+    cimg = cv2.medianBlur(img, 3)
+    cimg = cv2.cvtColor(cimg,cv2.COLOR_BGR2HSV)
     #img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     #img = cv2.cvtColor(img,cv2.COLOR_GRAY2BGR)
 
-    circles = cv2.HoughCircles(cimg,cv2.HOUGH_GRADIENT,5,100,param2=40)
+    mask = np.zeros((cimg.shape[0], cimg.shape[1], 1), np.uint8)
+    cv2.inRange(cimg, np.array([0,100,100]), np.array([10,255,255]), mask)
+    mask = cv2.GaussianBlur(mask, (9,9), 2)
+
+    circles = cv2.HoughCircles(mask,cv2.HOUGH_GRADIENT,1.2,100,param2=40)
 
     circle = np.uint16(np.around(circles[0][0]))
     cv2.circle(img, (circle[0], circle[1]), circle[2], (0,255,0), 4)
