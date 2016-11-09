@@ -14,32 +14,31 @@ def circle_detect(img):
     mask = cv2.erode(mask, None, iterations=2)
     mask = cv2.dilate(mask, None, iterations=2)
     # mask = cv2.GaussianBlur(mask, (9,9), 2)
-    
+
     # img = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
     # img = cv2.bitwise_and(img,img,mask=mask)
 
     # PyImageSearch Ball Tracking
     m = cv2.moments(mask, True)
     try:
-        centroid = np.uint16(np.around([m["m10"]/m["m00"],m["m01"]/m["m00"]]))
-        print centroid
+        # centroid = np.uint16(np.around([m["m10"]/m["m00"],m["m01"]/m["m00"]]))
+        # print centroid
 
-        
         ((x,y),radius) = cv2.minenclosingCircle(c)
-    
+
         img = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
-        cv2.rectangle(img, (centroid[0]-5, centroid[1]-5), (centroid[0]+5, centroid[1]+5), (0,128,255), -1)
+        cv2.rectangle(img, (x-5, y-5), (x+5, y+5), (0,128,255), -1)
         return None, img
     except:
         return None, img
-    
+
     # Circle detection: slow and inefficient
     # circles = cv2.HoughCircles(mask,cv2.HOUGH_GRADIENT,1.2,100,param2=40)
-    
+
     # if circles is None:
     #     return None, img
     # circle = np.uint16(np.around(circles[0][0]))
-    
+
     # cv2.circle(img, (circle[0], circle[1]), circle[2], (0,255,0), 4)
     # cv2.rectangle(img, (circle[0]-5, circle[1]-5), (circle[0]+5, circle[1]+5), (0,128,255), -1)
     # return circle, img # is necessary to return converted image
