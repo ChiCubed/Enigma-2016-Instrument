@@ -32,10 +32,9 @@ def circle_detect(img):
 
         ((x,y),radius) = cv2.minEnclosingCircle(c)
 
-        print radius
         if radius > 5: # for example
             img = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
-            img = cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
+            img = cv2.circle(img, (int(x), int(y)), int(radius), (0, 255, 255), 2)
     return None, img
 
     # Circle detection: slow and inefficient
