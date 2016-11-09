@@ -24,19 +24,18 @@ def circle_detect(img):
 
     if len(contours):
         c = max(contours, key=cv2.contourArea)
-        try:
-            # centroid = np.uint16(np.around([m["m10"]/m["m00"],m["m01"]/m["m00"]]))
-            # print centroid
+        # centroid = np.uint16(np.around([m["m10"]/m["m00"],m["m01"]/m["m00"]]))
+        # print centroid
 
-            # m = cv2.moments(c)
-            # center = (int(m["m10"]/m["m00"]), int(m["m01"]/m["m00"]))
+        # m = cv2.moments(c)
+        # center = (int(m["m10"]/m["m00"]), int(m["m01"]/m["m00"]))
+        
+        ((x,y),radius) = cv2.minenclosingCircle(c)
 
-            print radius
-            if radius > 5: # for example
-                img = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
-                img.circle(frame, int(x), int(y), int(radius), (0, 255, 255), 2)
-        except:
-            pass
+        print radius
+        if radius > 5: # for example
+            img = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
+            img.circle(frame, int(x), int(y), int(radius), (0, 255, 255), 2)
     return None, img
 
     # Circle detection: slow and inefficient
