@@ -8,6 +8,7 @@ def circle_detect(img):
     #img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     #img = cv2.cvtColor(img,cv2.COLOR_GRAY2BGR)
 
+    print cimg.shape
     mask = np.zeros((cimg.shape[0], cimg.shape[1], 1), np.uint8)
     # HOME: cv2.inRange(cimg, np.array([160,200,70]), np.array([185,255,210]), mask)
     cv2.inRange(cimg, np.array([145,140,40]), np.array([190,255,255]), mask)
@@ -19,18 +20,26 @@ def circle_detect(img):
     # img = cv2.bitwise_and(img,img,mask=mask)
 
     # PyImageSearch Ball Tracking
-    m = cv2.moments(mask, True)
-    try:
-        # centroid = np.uint16(np.around([m["m10"]/m["m00"],m["m01"]/m["m00"]]))
-        # print centroid
+    contours = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
+    center = None
 
-        ((x,y),radius) = cv2.minenclosingCircle(c)
+    if len(contours):
+        c = max(contours, key=cv2.contourArea)
+        try:
+            # centroid = np.uint16(np.around([m["m10"]/m["m00"],m["m01"]/m["m00"]]))
+            # print centroid
 
-        img = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
-        cv2.rectangle(img, (x-5, y-5), (x+5, y+5), (0,128,255), -1)
-        return None, img
-    except:
-        return None, img
+            ((x,y),radius) = cv2.minenclosingCircle(c)
+
+            # m = cv2.moments(c)
+            # center = (int(m["m10"]/m["m00"]), int(m["m01"]/m["m00"]))
+
+            if radius > 5: # for example
+                img = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
+                img.circle(frame, int(x), int(y), int(radius), (0, 255, 255), 2)
+            return None, img
+        except:
+            return None, img
 
     # Circle detection: slow and inefficient
     # circles = cv2.HoughCircles(mask,cv2.HOUGH_GRADIENT,1.2,100,param2=40)
