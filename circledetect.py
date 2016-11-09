@@ -37,9 +37,9 @@ def circle_detect(img):
             if radius > 5: # for example
                 img = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
                 img.circle(frame, int(x), int(y), int(radius), (0, 255, 255), 2)
-            return None, img
         except:
-            return None, img
+            pass
+    return None, img
 
     # Circle detection: slow and inefficient
     # circles = cv2.HoughCircles(mask,cv2.HOUGH_GRADIENT,1.2,100,param2=40)
