@@ -2,8 +2,8 @@ import math
 
 FOV_HORIZONTAL = math.pi # Full FOV in radians
 FOV_VERTICAL = math.pi
-IMG_WIDTH = 1920.0
-IMG_HEIGHT = 1080.0
+IMG_WIDTH = 640.0
+IMG_HEIGHT = 480.0
 
 MALLET_WIDTH = 2.3 # cm
 

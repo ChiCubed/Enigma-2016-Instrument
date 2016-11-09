@@ -50,14 +50,20 @@ def circle_detect(img):
     # return circle, img # is necessary to return converted image
 
 cap = cv2.VideoCapture(0)
-cap.set(3, 640)
-cap.set(4, 480)
+cap.set(3, circleTo3D.IMG_WIDTH)
+cap.set(4, circleTo3D.IMG_HEIGHT)
 cv2.namedWindow('frame', cv2.WINDOW_NORMAL)
-cv2.waitKey(3)
+cv2.waitKey(2)
 while True:
     cap.grab()
     ret, frame = cap.read()
 
     circle, frame = circle_detect(frame) # frame is edited in this temporary version of the func
+    if circle:
+        print circleTo3D.circle_to_3D(*circle)
     cv2.imshow('frame',frame)
-    cv2.waitKey(3)
+    c = cv2.waitKey(2)
+    if c == 27:
+        cv2.destroyWindow('frame')
+        cv2.waitKey(2)
+        break
