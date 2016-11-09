@@ -8,7 +8,7 @@ def circle_detect(img):
     #img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     #img = cv2.cvtColor(img,cv2.COLOR_GRAY2BGR)
 
-    print cimg.shape
+    print cimg[240][320]
     mask = np.zeros((cimg.shape[0], cimg.shape[1], 1), np.uint8)
     # HOME: cv2.inRange(cimg, np.array([160,200,70]), np.array([185,255,210]), mask)
     cv2.inRange(cimg, np.array([145,140,40]), np.array([190,255,255]), mask)
