@@ -25,15 +25,13 @@ def circle_detect(img):
     if len(contours):
         c = max(contours, key=cv2.contourArea)
         try:
-            print c
             # centroid = np.uint16(np.around([m["m10"]/m["m00"],m["m01"]/m["m00"]]))
             # print centroid
-
-            ((x,y),radius) = cv2.minenclosingCircle(c)
 
             # m = cv2.moments(c)
             # center = (int(m["m10"]/m["m00"]), int(m["m01"]/m["m00"]))
 
+            print radius
             if radius > 5: # for example
                 img = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
                 img.circle(frame, int(x), int(y), int(radius), (0, 255, 255), 2)
