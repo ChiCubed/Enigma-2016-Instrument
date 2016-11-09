@@ -3,30 +3,56 @@ import cv2
 import circleTo3D
 
 def circle_detect(img):
-    cimg = cv2.medianBlur(img, 3)
-    cimg = cv2.cvtColor(cimg,cv2.COLOR_BGR2HSV)
+    # cimg = cv2.medianBlur(img, 3)
+    cimg = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
     #img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     #img = cv2.cvtColor(img,cv2.COLOR_GRAY2BGR)
 
     mask = np.zeros((cimg.shape[0], cimg.shape[1], 1), np.uint8)
-    cv2.inRange(cimg, np.array([0,100,100]), np.array([10,255,255]), mask)
-    mask = cv2.GaussianBlur(mask, (9,9), 2)
+    # HOME: cv2.inRange(cimg, np.array([160,200,70]), np.array([185,255,210]), mask)
+    cv2.inRange(cimg, np.array([145,140,40]), np.array([190,255,255]), mask)
+    mask = cv2.erode(mask, None, iterations=2)
+    mask = cv2.dilate(mask, None, iterations=2)
+    # mask = cv2.GaussianBlur(mask, (9,9), 2)
+    
+    # img = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
+    # img = cv2.bitwise_and(img,img,mask=mask)
 
-    circles = cv2.HoughCircles(mask,cv2.HOUGH_GRADIENT,1.2,100,param2=40)
+    # PyImageSearch Ball Tracking
+    m = cv2.moments(mask, True)
+    try:
+        centroid = np.uint16(np.around([m["m10"]/m["m00"],m["m01"]/m["m00"]]))
+        print centroid
 
-    circle = np.uint16(np.around(circles[0][0]))
-    cv2.circle(img, (circle[0], circle[1]), circle[2], (0,255,0), 4)
-    cv2.rectangle(img, (circle[0]-5, circle[1]-5), (circle[0]+5, circle[1]+5), (0,128,255), -1)
-    return circle #, img is necessary to return converted image
+        
+        ((x,y),radius) = cv2.minenclosingCircle(c)
+    
+        img = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
+        cv2.rectangle(img, (centroid[0]-5, centroid[1]-5), (centroid[0]+5, centroid[1]+5), (0,128,255), -1)
+        return None, img
+    except:
+        return None, img
+    
+    # Circle detection: slow and inefficient
+    # circles = cv2.HoughCircles(mask,cv2.HOUGH_GRADIENT,1.2,100,param2=40)
+    
+    # if circles is None:
+    #     return None, img
+    # circle = np.uint16(np.around(circles[0][0]))
+    
+    # cv2.circle(img, (circle[0], circle[1]), circle[2], (0,255,0), 4)
+    # cv2.rectangle(img, (circle[0]-5, circle[1]-5), (circle[0]+5, circle[1]+5), (0,128,255), -1)
+    # return circle, img # is necessary to return converted image
 
 cap = cv2.VideoCapture(0)
 cap.set(3, 640)
 cap.set(4, 480)
 cv2.namedWindow('frame', cv2.WINDOW_NORMAL)
-cv2.waitKey(30)
+cv2.waitKey(3)
 while True:
+    cap.grab()
     ret, frame = cap.read()
 
-    circle = circle_detect(frame) # frame is edited in this temporary version of the func
+    circle, frame = circle_detect(frame) # frame is edited in this temporary version of the func
     cv2.imshow('frame',frame)
-    cv2.waitKey(30)
+    cv2.waitKey(3)
