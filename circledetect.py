@@ -29,8 +29,8 @@ def circle_detect(img):
 
         # m = cv2.moments(c)
         # center = (int(m["m10"]/m["m00"]), int(m["m01"]/m["m00"]))
-        
-        ((x,y),radius) = cv2.minenclosingCircle(c)
+
+        ((x,y),radius) = cv2.minEnclosingCircle(c)
 
         print radius
         if radius > 5: # for example
