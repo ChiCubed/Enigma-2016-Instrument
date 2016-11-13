@@ -138,10 +138,13 @@ lasttime = timeit.default_timer() # cap.get(cv2.CAP_PROP_POS_MSEC) not working
 
 # noise = FrequencyLoop(0, 0.5)
 # noise.play()
-s = Server(nchnls = 2).boot()
+s = Server(nchnls=2, duplex=0, audio='portaudio').boot()
 s.start()
 
-instrument = Instruments.Oboe()
+instrument = Instruments.Oboe(play=False)
+# lfo = Sine(.5, phase=[0,.5], mul=.5, add=.5)
+# modulator = Instruments.RingMod(instrument.noise, freq=[220,1760], mul=lfo).out()
+dualiser = Pan(instrument.noise).out()
 
 while True:
     cap.grab()
@@ -160,6 +163,7 @@ while True:
         # We want to 'snap' notes
 
         instrument.play(*pos)
+        # modulator.freq = [instrument.mainFreq()*0.5, instrument.mainFreq() * 1.5]
 
         lastpos = pos
         lasttime = time
