@@ -141,10 +141,15 @@ lasttime = timeit.default_timer() # cap.get(cv2.CAP_PROP_POS_MSEC) not working
 s = Server(nchnls=2, duplex=0, audio='portaudio').boot()
 s.start()
 
-instrument = Instruments.Oboe(play=False)
+instrument = Instruments.ElectricGuitar(play=False)
 # lfo = Sine(.5, phase=[0,.5], mul=.5, add=.5)
 # modulator = Instruments.RingMod(instrument.noise, freq=[220,1760], mul=lfo).out()
 dualiser = Pan(instrument.noise).out()
+
+i = 0
+while os.path.isfile(os.path.expanduser('~') + "/Desktop/recording" + str(i) + ".wav"):
+    i += 1
+rec = Record(dualiser, filename=os.path.expanduser('~') + "/Desktop/recording" + str(i) + ".wav")
 
 while True:
     cap.grab()
@@ -177,6 +182,7 @@ while True:
         cv2.destroyWindow('frame')
         cv2.waitKey(2)
         instrument.stop()
+        rec.stop()
         s.stop()
         # manual kill
         os.system('kill %d ' % os.getpid())
