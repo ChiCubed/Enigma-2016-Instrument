@@ -186,7 +186,7 @@ while True:
         s.stop()
 
         print "\n\n\n\n\n#############################"
-        print "To listen to your recording, please navigate to " + os.path.expanduser('~') + " and enter the following command:"
+        print "To listen to your recording, please navigate to " + os.path.expanduser('~') + "/Desktop and enter the following command:"
         print "omxplayer --vol -2000 recording" + str(i) + ".wav"
         print "#############################\n\n\n\n\n"
         # manual kill
