@@ -168,7 +168,7 @@ while True:
         # We want to 'snap' notes
 
         instrument.play(*pos)
-        # modulator.freq = [instrument.mainFreq()*0.5, instrument.mainFreq() * 1.5]
+        # modulator.freq = [instrument.freq*0.5, instrument.freq*1.5]
 
         lastpos = pos
         lasttime = time
@@ -186,8 +186,9 @@ while True:
         s.stop()
 
         print "\n\n\n\n\n#############################"
-        print "To listen to your recording, please navigate to " + os.path.expanduser('~') + "/Desktop and enter the following command:"
-        print "omxplayer --vol -2000 recording" + str(i) + ".wav"
+        print "To listen to your recording, please navigate to " + os.path.expanduser('~') + "/Desktop in a terminal and enter the following command:"
+        print "LINUX: omxplayer --vol -2000 recording" + str(i) + ".wav"
+        print "MACOS: afplay -v 0.8 recording" + str(i) + ".wav"
         print "#############################\n\n\n\n\n"
         # manual kill
         os.system('kill %d ' % os.getpid())
